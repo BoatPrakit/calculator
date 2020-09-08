@@ -11,7 +11,8 @@ class Screen extends React.Component{
   render(){
     return (
       <div className="screen">
-        {this.props.value}
+        <h1>&zwnj;{this.props.beforeCalculate}</h1>
+        <span>= {this.props.result}</span> 
       </div>
     )
   }
@@ -30,10 +31,10 @@ class ButtonPad extends React.Component{
       <div className="button-pad">
         <div className="col-1">
           <div className="operator-row">
-            {this.renderButton("X")}
-            {this.renderButton("÷")}
+            {this.renderButton("*")}
+            {this.renderButton("/")}
             {this.renderButton("C")}
-            {this.renderButton("<<")}
+            {this.renderButton("<")}
           </div>
           <div className="row-1">
             {this.renderButton("7")}
@@ -65,19 +66,48 @@ class Calculator extends React.Component{
     super(props);
     this.state = {
       beforeCalculate : '',
-      isClear : false
+      isClear : false,
+      result : 0
     }
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick(value){
-    this.setState({
-      beforeCalculate : this.state.beforeCalculate +value
-    })
+    const mathRegex = /[^-\d/*+]/g;
+    const mathEndRegex = /\d=$/; 
+    const currentNumber = this.state.beforeCalculate + value;
+
+    switch(value.toLowerCase()){
+      case "c":
+        this.setState({
+          beforeCalculate : '',
+          result : 0
+        });
+        break;
+      case "<":
+        this.setState({
+          beforeCalculate : currentNumber.slice(0,currentNumber.length - 2) 
+        });
+        break;
+      case "=":
+        if(!mathEndRegex.test(currentNumber)){
+          alert("not complete");
+          break;
+        }
+        this.setState({
+          result : eval(currentNumber.replace(mathRegex, '')),
+        })
+        break;
+
+      default:
+        this.setState({
+          beforeCalculate : currentNumber,
+        })
+    }
   }
   render(){
     return (
       <div className="calculator">
-          <Screen value={this.state.beforeCalculate} />
+          <Screen beforeCalculate={this.state.beforeCalculate} result={this.state.result}/>
           <ButtonPad onClick={this.handleClick}/>
       </div>
     )

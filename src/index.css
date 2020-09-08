@@ -1,7 +1,12 @@
+@font-face{
+  font-family: Calculator;
+  src: url(./font/Calculator.ttf);
+}
 *{
   margin : 0 ;
   padding : 0 ;
   box-sizing: border-box;
+  font-family: Calculator;
 }
 body{
   background-color: #444;
@@ -20,15 +25,19 @@ body{
   width: 75px;
   height: 75px;
   margin: 5px;
+  font-size: 20px;
+  background-color: white;
+  outline: none;
 }
 .screen{
   margin: 20px 0;
-  padding: 10px;
-  text-align: right;
+  padding: 20px;
+  text-align: end;
   background-color: white;
-  height: 50px;
-  font-size: 30px;
+  height: 110px;
+  font-size: 25px;
   border-radius: 5px;
+  color: gray;
 }
 .button-pad{
   display: flex;
@@ -36,4 +45,8 @@ body{
 .col-2{
   display: flex;
   flex-direction: column;
+}
+h1{
+  font-size: 35px;
+  color: black;
 }
